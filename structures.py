@@ -554,7 +554,7 @@ class Stack:
         Space Complexity: O(n) for the returned slice.
         """
         if not self.is_empty():
-            return self.items[-1:-n-1]
+            return self.items[-1:-n-1:-1]
         raise IndexError("Peek from empty stack")
 
     def is_empty(self) -> bool:
