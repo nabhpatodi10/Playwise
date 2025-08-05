@@ -253,6 +253,42 @@ class DoublyLinkedList:
             self.tail = new_node
         self.size += 1
 
+    def insert(self, index: int, song: int) -> None:
+        """
+        Inserts a new song at a specific index in the list.
+
+        Args:
+            index (int): The index at which to insert the song.
+            song (int): The ID of the song to insert.
+        
+        Time Complexity: O(n)
+        Space Complexity: O(1)
+        """
+        if index < 0 or index > self.size:
+            raise IndexError("Index out of bounds")
+
+        if index == self.size:
+            self.append(song)
+            return
+
+        new_node = DoublyLinkedListNode(song)
+        if index == 0:
+            new_node.next = self.head
+            if self.head:
+                self.head.prev = new_node
+            self.head = new_node
+            if self.tail is None:
+                self.tail = new_node
+        else:
+            current = self.get_node(index)
+            new_node.prev = current.prev
+            new_node.next = current
+            if current.prev:
+                current.prev.next = new_node
+            current.prev = new_node
+        
+        self.size += 1
+
     def remove(self, index: int) -> int:
         """
         Removes a song from the list at a specific index.
@@ -266,10 +302,8 @@ class DoublyLinkedList:
         Time Complexity: O(n) in the worst case (removing from the end).
         Space Complexity: O(1)
         """
-        if index < 0:
-            return
-        if index >= self.size:
-            return
+        if not (0 <= index < self.size):
+            raise IndexError("Index out of bounds for remove")
         current = self.head
         for _ in range(index):
             if current is None:
@@ -311,30 +345,8 @@ class DoublyLinkedList:
         if current is None:
             return
         song = current.song
-        self.remove(old_index)
-        if new_index == 0:
-            new_node = DoublyLinkedListNode(song)
-            new_node.next = self.head
-            if self.head:
-                self.head.prev = new_node
-            self.head = new_node
-            if self.tail is None:
-                self.tail = new_node
-        else:
-            current = self.head
-            for _ in range(new_index - 1):
-                if current is None:
-                    return
-                current = current.next
-            if current is None:
-                return
-            new_node = DoublyLinkedListNode(song)
-            new_node.prev = current.prev
-            new_node.next = current
-            if current.prev:
-                current.prev.next = new_node
-            current.prev = new_node
-        self.size += 1
+        song = self.remove(old_index)
+        self.insert(new_index, song)
 
     def reverse(self) -> None:
         """
@@ -715,7 +727,7 @@ class BinarySearchTree:
         if isinstance(node, BinarySearchTreeLeafNode):
             if rating < node.start or rating >= node.end:
                 raise ValueError("Rating out of bounds for leaf node")
-            node.songs[rating] = song
+            node.songs[song] = rating
         else:
             if rating < node.start or rating >= node.end:
                 raise ValueError("Rating out of bounds for bucket node")
@@ -755,7 +767,7 @@ class BinarySearchTree:
         if isinstance(node, BinarySearchTreeLeafNode):
             if node.start >= end or node.end <= start:
                 return {}
-            return {k: v for k, v in node.songs.items() if k >= start and k < end}
+            return {k: v for k, v in node.songs.items() if v >= start and v < end}
         # If it's a bucket node, search both sides
         return {**self.__search(node.left, start, end), **self.__search(node.right, start, end)}
     
