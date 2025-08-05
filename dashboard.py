@@ -309,7 +309,7 @@ class Dashboard:
         songs = self.__rating_tree.search(start, end)
         if not songs:
             return "No songs found in the specified rating range"
-        return "\n".join(str(song) for song in songs)
+        return "\n".join(str(song) + " : " + str(songs[song]) for song in songs)
     
     def get_num_songs_by_rating(self) -> str:
         """
@@ -353,7 +353,7 @@ class Dashboard:
         Returns:
             str: A comprehensive formatted string of the application's state.
         
-        Time Complexity: O(N log N + n + q + h) where N is total songs, n is playlist size, q is queue size, and h is history size. Dominated by O(N log N) from get_longest_songs.
-        Space Complexity: O(N + n + q + h) to build the various string representations. Dominated by O(N) from get_longest_songs.
+        Time Complexity: O(N log k + n + q + h) where N is total songs, n is playlist size, q is queue size, and h is history size. Dominated by O(N log k) from get_longest_songs.
+        Space Complexity: O(k + n + q + h) to build the various string representations. Dominated by O(N) from get_longest_songs.
         """
         return f"Songs by Ratings:\n{self.get_num_songs_by_rating()}\n\nLongest Songs:\n{self.get_longest_songs()}\n\nRecently Played:\n{self.get_recently_played_songs()}\n\nPlaylist:\n{self.get_playlist()}\n\nPlayback:\n{self.get_playback()}"
