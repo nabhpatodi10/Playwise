@@ -186,7 +186,7 @@ class Playlist:
                 elif change.change_type == "add":
                     self.__songs.remove(self.__songs.get_size() - 1)
                 elif change.change_type == "remove":
-                    self.__songs.append(change.change["song_removed"])
+                    self.__songs.insert(change.change["index"], change.change["song_removed"])
                 elif change.change_type == "move":
                     self.__songs.move(change.change["to_index"], change.change["from_index"])
                 elif change.change_type == "reverse":
