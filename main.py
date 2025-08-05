@@ -19,12 +19,19 @@ songs.add_song(song2)
 songs.add_song(song3)
 songs.add_song(song4)
 
+print(dashboard.search_song(1))
+print(dashboard.search_song(2))
+print(dashboard.search_song(3))
+print(dashboard.search_song(4))
+
 dashboard.add_song_to_playlist(1)
 dashboard.add_song_to_playlist(2)
 dashboard.add_song_to_playlist(3)
 dashboard.add_song_to_playlist(4)
 
 print(dashboard.get_playlist())
+
+print(dashboard.get_playlist_changes())
 
 dashboard.add_playlist_to_queue()
 print(dashboard.get_playback())
@@ -35,10 +42,17 @@ print(dashboard.get_playback())
 
 print()
 dashboard.rate_song(1, 4.5)
+dashboard.rate_song(2, 4.9)
+dashboard.rate_song(3, 3.5)
+dashboard.rate_song(4, 2.6)
+print(dashboard.search_songs_by_rating(1, 5))
+print()
+
 print("Snapshot")
 print(dashboard.get_snapshot())
 
 print()
+print(dashboard.get_playlist())
 dashboard.sort_playlist("duration", True)
 print(dashboard.get_playlist())
 
